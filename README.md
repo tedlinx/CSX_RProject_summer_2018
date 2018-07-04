@@ -7,9 +7,9 @@
   2. workout in the gym
   3. spend time with family and friends
   4. learn new things
-##Week1
-###In class (morning)
-	1. Create a GitHub account
-	2. Upload a README.md to GitHub: introducing myself
-	3. fill in a Questionnaire 
+## Week1
+### In class (morning)
+	1.  Create a GitHub account
+	2.  Upload a README.md to GitHub: introducing myself
+	3.  fill in a Questionnaire 
 
