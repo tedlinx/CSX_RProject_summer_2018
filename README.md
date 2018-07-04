@@ -13,4 +13,4 @@
 	2.  Upload a README.md to GitHub: introducing myself
 	3.  fill in a Questionnaire 
 
-[HW1](file:///C:/Users/B06408042/Documents/GitHub/CSX_RProject_summer_2018/week1/HW1.html)
+[HW1]( https://tedlinx.github.io/CSX_RProject_summer_2018/week1/HW1.html)
