@@ -1,6 +1,7 @@
-# CSX_RProject_Summer_2018
-## introduce myself
-* Name: Kuan-Chen Lin
+﻿# 【夏季學院】資料科學程式設計8N2033
+## self-introduction
+* Name: 林冠辰 Kuan-Chen Lin
+* Education background: currently study at National Taiwan University/ Major: Physical Therapy
 * Hobby: 
   1. listen to musics
   2. workout in the gym
