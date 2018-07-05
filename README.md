@@ -17,6 +17,7 @@
 	4. find a group 
 ### In Class (afternoon)
 	1. Download R & RStudio
-	2. Push a RMarkdown to GitHub:[HW1]( https://tedlinx.github.io/CSX_RProject_summer_2018/week1/HW1.html)
+	2. Push a RMarkdown to GitHub:
+[HW1]( https://tedlinx.github.io/CSX_RProject_summer_2018/week1/HW1.html)
 ### At Home
 	1. 
