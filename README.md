@@ -12,5 +12,6 @@
 	1.  Create a GitHub account
 	2.  Upload a README.md to GitHub: introducing myself
 	3.  fill in a Questionnaire 
-
+### In class (afternoon)
+	
 [HW1]( https://tedlinx.github.io/CSX_RProject_summer_2018/week1/HW1.html)
