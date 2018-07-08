@@ -20,4 +20,6 @@
 	2. Push a RMarkdown to GitHub:
 [HW1]( https://tedlinx.github.io/CSX_RProject_summer_2018/week1/HW1.html)
 ### At Home
-	1. 
+	1. finish [DataCamp] Introduction to R
+	2. finish [DataCamp] Intermediate R
+	* I feel both exhausted and satisfied when I finished the last exercise of intermediate R. One more "course" to go!!(for week 1~) 
