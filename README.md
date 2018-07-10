@@ -25,4 +25,5 @@
 	* I feel both exhausted and satisfied when I finished the last exercise of intermediate R. One more "course" to go!!(for week 1~) 
 	3. finish [DataCamp] Introduction to Tidyverse
 [hw1basicR]( https://tedlinx.github.io/CSX_RProject_summer_2018/week1/hw1basicR.html)
+
 [Just for checking if I'm fimiliar with uploading a RMarkdown](https://tedlinx.github.io/CSX_RProject_summer_2018/week2/checking.html)
