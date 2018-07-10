@@ -1,0 +1,25 @@
+---
+title: "hw1basicR"
+author: "ted"
+date: "2018-7-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+just trying out
+
+## Arithmatics
+```{r}
+1+1
+```
+```{r}
+2-1
+```
+```{r}
+2*2
+```
+```{r}
+4/2
+```
