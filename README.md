@@ -23,3 +23,4 @@
 	1. finish [DataCamp] Introduction to R
 	2. finish [DataCamp] Intermediate R
 	* I feel both exhausted and satisfied when I finished the last exercise of intermediate R. One more "course" to go!!(for week 1~) 
+	3. finish [DataCamp] Introduction to Tidyverse
