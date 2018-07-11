@@ -32,4 +32,4 @@
 ## Week2
 ### In class (morning)
 
-[hw2-part1]
+[hw2-part1]( https://tedlinx.github.io/CSX_RProject_summer_2018/week2/hw2-part1.html)
