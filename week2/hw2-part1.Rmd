@@ -9,13 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-##¨Ï¥Îªº¸ê®Æ
+##ä½¿ç”¨çš„è³‡æ–™
 ```{r}
 iris
 mtcars
 ```
 
-##³æÅÜ¼Æ: ³sÄò«¬
+##å–®è®Šæ•¸: é€£çºŒå‹
 
 ```{r}
 library(ggplot2)
@@ -23,7 +23,7 @@ ggplot(iris , aes(x= Sepal.Length))+
   geom_bar(fill = "red" , colour= "black")
 ```
 
-##³æÅÜ¼Æ: Â÷´²«¬
+##å–®è®Šæ•¸: é›¢æ•£å‹
 
 ```{r}
 #mtcars
@@ -32,7 +32,7 @@ ggplot(mtcars , aes(x= gear))+
   geom_bar(fill = "green" , colour= "red")
 ```
 
-##³æÅÜ¼Æ:histogram
+##å–®è®Šæ•¸:histogram
 
 ```{r}
 #iris
@@ -41,7 +41,7 @@ ggplot(iris, aes(x = Sepal.Length , fill =  Species))+
   geom_histogram(binwidth = 1)
 ```
 
-##ÂùÅÜ¼Æ: ³sÄòVS³sÄòVSÃş§O
+##é›™è®Šæ•¸: é€£çºŒVSé€£çºŒVSé¡åˆ¥
 
 ```{r}
 #iris
@@ -50,7 +50,7 @@ ggplot(iris , aes(x = Sepal.Length , y =   Petal.Length, colour = Species))+
   geom_point()
 ```
 
-##ÂùÅÜ¼Æ: boxplot
+##é›™è®Šæ•¸: boxplot
 
 ```{r}
 #iris
@@ -59,7 +59,7 @@ ggplot(iris , aes(x= Species , y = Sepal.Width))+
   geom_boxplot()
 ```
 
-##¦hÅÜ¶q
+##å¤šè®Šé‡
 
 ```{r}
 #mtcar
