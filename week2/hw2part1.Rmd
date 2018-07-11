@@ -1,0 +1,72 @@
+---
+title: "Data Visualization"
+author: "TedLin"
+date: "July 11, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##使用的資料
+```{r}
+iris
+mtcars
+```
+
+##單變數: 連續型
+
+```{r}
+library(ggplot2)
+ggplot(iris , aes(x= Sepal.Length))+
+  geom_bar(fill = "red" , colour= "black")
+```
+
+##單變數: 離散型
+
+```{r}
+#mtcars
+library(ggplot2)
+ggplot(mtcars , aes(x= gear))+
+  geom_bar(fill = "green" , colour= "red")
+```
+
+##單變數:histogram
+
+```{r}
+#iris
+library(ggplot2)
+ggplot(iris, aes(x = Sepal.Length , fill =  Species))+
+  geom_histogram(binwidth = 1)
+```
+
+##雙變數: 連續VS連續VS類別
+
+```{r}
+#iris
+library(ggplot2)
+ggplot(iris , aes(x = Sepal.Length , y =   Petal.Length, colour = Species))+
+  geom_point()
+```
+
+##雙變數: boxplot
+
+```{r}
+#iris
+library(ggplot2)
+ggplot(iris , aes(x= Species , y = Sepal.Width))+
+  geom_boxplot()
+```
+
+##多變量
+
+```{r}
+#mtcar
+library(ggplot2)
+library(GGally)
+library(scales)
+ggpairs(mtcars,lower= list(continuous = wrap("points", shape = I('.'))),
+        upper = list(combo = wrap("box", outlier.shape = I('.'))))
+
+```
