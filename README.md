@@ -27,8 +27,6 @@
 	4. A RMarkdown with basic arthmatics(hw1basicR)
 [hw1basicR]( https://tedlinx.github.io/CSX_RProject_summer_2018/week1/hw1basicR.html)
 
-[Just for checking if I'm fimiliar with uploading a RMarkdown](https://tedlinx.github.io/CSX_RProject_summer_2018/week2/checking.html)
-
 ## Week2
 ### In class (morning)
 
