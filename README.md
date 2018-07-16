@@ -26,4 +26,5 @@
 ### In class
 
 [hw2-part1data.visulization]( https://tedlinx.github.io/CSX_RProject_summer_2018/week2/hw2-part1.html )
+
 [hw2-part2wordcloud]( https://tedlinx.github.io/CSX_RProject_summer_2018/week2/hwpart2.html)
