@@ -1,0 +1,24 @@
+---
+title: "Exploratory Data Analysis 學習筆記"
+author: "Ted"
+date: "July 15, 2018"
+output: html_document
+---
+
+#輕鬆學習R語言
+***
+
+##探索dataframe
+***
+
+```{r}
+nrow(iris) # 告訴我們內建資料 iris 有幾個觀測值
+ncol(iris) # 告訴我們內建資料 iris 有幾個變數
+dim(iris) # 告訴我們內建資料 iris 有幾個觀測值與有幾個變數
+```
+
+* `nrow()` 函數命名是 number of rows 的縮寫
+*`ncol()` 函數命名是 number of columns 的縮寫
+*`dim()` 函數命名是 dimensions 的縮寫
+
+

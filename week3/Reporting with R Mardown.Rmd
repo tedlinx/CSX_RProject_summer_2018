@@ -1,0 +1,105 @@
+---
+title: "Reporting With Rmarkdown 學習筆記"
+author: "Ted"
+date: "July 15, 2018"
+output: html_document
+---
+## RMarkdown
+********
+
+RMarkdown是一種編寫格式，他比HTML容易閱讀編寫，但不是來取代HTML的。編寫完的RMarkdown可以以word, HTML, pdf 等形式發布
+
+
+## Basic Format
+****
+
+* A YAML header that contains some metadata
+* Narrative text written in Markdown
+* R code chunks surrounded by ```{r} and ```; a syntax that comes from the knitr package
+
+
+## 自製cheatsheet
+*****
+
+### **標題**
+*******
+
+```{r}
+# First level header
+## Second level header
+### Third level header
+```
+# First level header
+## Second level header
+### Third level header
+
+### **字體**
+********
+
+```{r}
+# 斜體*italics*
+# 粗體**bold**
+# monospaced(像編碼):`code`
+```
+*italics*
+**bold**
+`code`
+
+### **超連結**
+*****
+
+```{r}
+# [RStudio](www.rstudio.com)
+# 中括號內放名稱；小括號放link
+```
+[RStudio](www.rstudio.com)
+
+### **清單**
+********
+
+```{r}
+# 1. item 1
+# 2. item 2
+# 3. item 3
+# * item 1
+# * item 2
+# * item 3
+```
+
+**打清單前要記得空一行you need to place a blank line between the list and any paragraphs that come before it**
+
+1. item 1
+2. item 2
+3. item 3
+* item 1
+* item 2
+* item 3
+
+### **加入數學式LaTeX equations**
+******
+
+```{r}
+# $$1+1 = 2$$
+# 插入兩個$在兩端
+# LaTeX 可以拿來打方程式，很好用
+```
+[LaTeX/Mathematics](https://en.wikibooks.org/wiki/LaTeX/Mathematics)
+
+### **knitr syntax**knitr語法
+*****
+
+```{r}
+# 加入code
+# code chunk:```{r, chunk option }code```
+# embed in text:`r 文字`
+```
+chunk option:
+
+* 輸出結果:
+
+  1. message = FALSE
+  2. error = FALSE
+  3. warning = FALSE
+  4. echo = FALSE**不顯示code, 只呈現結果**
+  5. eval = FALSE**不跑, 但會顯示code**
+  6. result = "hide"**跑code，但不顯示結果**
