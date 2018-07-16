@@ -2,13 +2,8 @@
 ## Self-Introduction
 * Name: 林冠辰 Kuan-Chen Lin
 * StudentID: B06408042
-* Group members: 林冠辰、林昌傑、段玉星
-* Education background: National Taiwan University/ Major: Physical Therapy
-* Hobbies: 
-  1. Listen to musics
-  2. Workout in the gym
-  3. Spend time with family and friends
-  4. Learn new things 
+* department: Physical Therapy 
+ 
 ## Week1
 ### In Class (morning)
 	1. Sign up a GitHub account
@@ -28,6 +23,7 @@
 [hw1basicR]( https://tedlinx.github.io/CSX_RProject_summer_2018/week1/hw1basicR.html)
 
 ## Week2
-### In class (morning)
+### In class
 
-[hw2-part1]( https://tedlinx.github.io/CSX_RProject_summer_2018/week2/hw2-part1.html )
+[hw2-part1data.visulization]( https://tedlinx.github.io/CSX_RProject_summer_2018/week2/hw2-part1.html )
+[hw2-part2wordcloud]( https://tedlinx.github.io/CSX_RProject_summer_2018/week2/hwpart2.html)
