@@ -1,0 +1,246 @@
+---
+title: "Report of Dementia Prediction w/ Tree-based Models"
+author: "Ted"
+date: "July 18, 2018"
+output: html_document
+---
+## Data From
+****
+
+[**Here**](https://www.kaggle.com/ruslankl/dementia-prediction-w-tree-based-models/data)
+
+## Introdution to dataset
+*****
+
+1. Open Access Series of Imaging Studies (OASIS)這個計畫的目標是要透過公開MRI dataset, 來促進神經科學的研究。
+*OASIS is made available by the Washington University Alzheimer’s Disease Research Center, Dr. Randy Buckner at the Howard Hughes Medical Institute (HHMI)( at Harvard University, the Neuroinformatics Research Group (NRG) at Washington University School of Medicine, and the Biomedical Informatics Research Network (BIRN).*
+
+2. Cross-sectional MRI Data:
+* subjects: 416  (all right-handed, include men and women) 
+* age: 18 to 96 
+* For each subject, 3 or 4 individual T1-weighted MRI scans obtained in single scan sessions
+* 100 of the included subjects over the age of 60 have been clinically diagnosed with very mild to moderate Alzheimer’s disease (AD)
+* included 20 nondemented subjects
+
+3. Longitudinal MRI Data:
+* subjects: 150  (all right-handed, include men and women) 
+* age: 60 to 96
+* Each subject was scanned on two or more visits, separated by at least one year for a total of 373 imaging sessions. For each subject, 3 or 4 individual T1-weighted MRI scans obtained in single scan sessions
+* 72 of the subjects were characterized as nondemented 
+* 64 of the subjects were characterized as demented (51 individuals with mild to moderate Alzheimer’s disease. Another 14 subjects were characterized as nondemented at the time of their initial visit and were subsequently characterized as demented at a later visit)
+
+## Acknowledgement
+****
+
+grant numbers:P50 AG05681, P01 AG03991, R01 AG021910, P20 MH071616, U24 RR0213
+
+## Dementia失智症
+****
+
+相關介紹參考連結:
+
+1. [What Is Alzheimer's?](https://www.alz.org/alzheimers-dementia/what-is-alzheimers)
+
+2. [台灣失智症協會](http://www.tada2002.org.tw/About/IsntDementia)
+
+## Understanding the data
+****
+
+### General Info
+****
+* Subject.ID
+* MRI.ID
+* Group (Converted / Demented / Nondemented)
+* Visit - Number of visit
+
+### Demographics Info
+****
+* M.F - Gender
+* Hand - Handedness (actually all subjects were right-handed so I will drop this column)
+* Age
+* EDUC - Years of education
+* SES - Socioeconomic status as assessed by the Hollingshead Index of Social Position and classified into categories from 1 (highest status) to 5 (lowest status)
+
+### Clinical Info
+*****
+
+##### MMSE - a 30-point questionnaire  to measure cognitive impairment.
+
+  * normal: >=24
+  * severe: <=9
+  * moderate: 10–18
+  * mild: 19–23
+
+*****
+
+##### CDR - 5-point scale used to characterize six domains of cognitive and functional performance applicable to Alzheimer disease and related dementias:
+
+  * Memory
+  * Orientation
+  * Judgment & Problem Solving,
+  * Community Affairs
+  * Home & Hobbie
+  * Personal Care.
+  
+* 0 = Normal
+* 0.5 = Very Mild Dementia
+* 1 = Mild Dementia
+* 2 = Moderate Dementia
+* 3 = Severe Dementia
+
+*****
+
+##### Derived anatomic volumes
+* eTIV - Estimated total intracranial volume, (mm3)
+* nWBV - Normalized whole-brain volume, expressed as a percent of all voxels in the atlas-masked image that are labeled as gray or white matter by the automated tissue segmentation process
+*　ASF - Atlas scaling factor (unitless). Computed scaling factor that transforms native-space brain and skull to the atlas target (i.e., the determinant of the transform matrix)
+
+*****
+
+## Dataset
+****
+
+讀取CSV檔
+```{r, results='hide'}
+longitudinal <- read.csv("C:\\Users\\B06408042\\Desktop\\GitHub\\CSX_RProject_summer_2018\\week3\\oasis_longitudinal.csv", header=TRUE)
+crosssectional <- read.csv("C:\\Users\\B06408042\\Desktop\\GitHub\\CSX_RProject_summer_2018\\week3\\oasis_crosssectional.csv", header= TRUE)
+```
+
+set workspace
+```{r, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(Hmisc)
+library(PerformanceAnalytics)
+library(cowplot)
+library(caret)
+library(rpart)
+library(rpart.plot)
+library(e1071)
+library(randomForest)
+library(gbm)
+library(Metrics)
+library(vtreat)
+library(AUC)
+
+```
+## Data Manipulation
+*****
+
+用他的方法分析longitudinal這個資料
+```{r}
+#因為大家都是右撇子，所以去除Hand
+Data <- select(longitudinal, -Hand)
+#把SES,MMSE這兩欄的missing value替換成median
+Data$SES[is.na(Data$SES)] <- median(Data$SES, na.rm = TRUE)
+Data$MMSE[is.na(Data$MMSE)] <- median(Data$MMSE, na.rm = TRUE)
+
+```
+
+## Exploratory Data Analysis
+*****
+
+### *性別/年齡*和*失智症診斷結果*的關聯性
+```{r, message=FALSE, warning=FALSE}
+Data %>%
+    select(Subject.ID, Age, CDR, M.F) %>%
+    group_by(Subject.ID, CDR, M.F) %>%
+    summarise_all(funs(min)) %>%
+    as.data.frame() %>%
+    mutate(CDR = as.factor(CDR)) %>%
+ggplot(aes(x = CDR, y = Age, fill = M.F)) + 
+    geom_violin() +
+    labs(title = "1. Distribution of Age by CDR rate",
+         fill = "Sex") +
+    theme_light()
+```
+
+### *教育程度/社經地位*和*失智症診斷*之間的關聯
+```{r, message=FALSE, warning=FALSE}
+x <- Data %>%
+    select(EDUC, CDR, M.F) %>%
+    mutate(CDR = as.factor(CDR)) %>%
+ggplot(aes(x = CDR, y = EDUC)) + 
+    geom_jitter(aes(col = CDR), alpha = 0.6) +
+    labs(title = "x") +
+    theme_light()
+
+y <- Data %>%
+    select(SES, CDR, M.F) %>%
+    mutate(CDR = as.factor(CDR)) %>%
+ggplot(aes(x = CDR, y = SES)) + 
+    geom_jitter(aes(col = CDR), alpha = 0.6) +
+    labs(title = "x") +
+    theme_light()
+
+p <- plot_grid(x, y) 
+title <- ggdraw() + draw_label("2. Distribution of Education and Social Economic Status", fontface='bold')
+plot_grid(title, p, ncol=1, rel_heights=c(0.1, 1))
+```
+
+### *Estimated total intracranial volume*和*失智症診斷*之間的關聯
+```{r,message=FALSE, warning=FALSE}
+x <- Data %>%
+    select(MMSE, CDR, M.F) %>%
+    mutate(CDR = as.factor(CDR)) %>%
+ggplot(aes(x = CDR, y = MMSE)) + 
+    geom_jitter(aes(col = CDR), alpha = 0.6) +
+    labs(title = "x") +
+    theme_light()
+
+y <- Data %>%
+    select(nWBV, CDR, M.F) %>%
+    mutate(CDR = as.factor(CDR)) %>%
+ggplot(aes(x = CDR, y = nWBV)) + 
+    geom_jitter(aes(col = CDR), alpha = 0.6) +
+    labs(title = "x") +
+    theme_light()
+
+p <- plot_grid(x, y) 
+title <- ggdraw() + draw_label("3. Distribution of MMSE Score and Wole-brain Volume", fontface='bold')
+plot_grid(title, p, ncol=1, rel_heights=c(0.1, 1))
+```
+
+###　*Atlas scaling factor* 和*失智症診斷*
+```{r, message=FALSE, warning=FALSE}
+x <- Data %>%
+    select(eTIV, CDR, M.F) %>%
+    mutate(CDR = as.factor(CDR)) %>%
+ggplot(aes(x = CDR, y = eTIV)) + 
+    geom_jitter(aes(col = CDR), alpha = 0.6) +
+    labs(title = "x") +
+    theme_light()
+
+y <- Data %>%
+    select(ASF, CDR, M.F) %>%
+    mutate(CDR = as.factor(CDR)) %>%
+ggplot(aes(x = CDR, y = ASF)) + 
+    geom_jitter(aes(col = CDR), alpha = 0.6) +
+    labs(title = "x") +
+    theme_light()
+
+p <- plot_grid(x, y) 
+title <- ggdraw() + draw_label("4. Distribution of Total Intracranial Volume and Atlas Scaling Factor", fontface='bold')
+plot_grid(title, p, ncol=1, rel_heights=c(0.1, 1))
+
+```
+
+## 結論
+****
+
+* **Plot 1**: no obvious connection between *Age/Sex* and *Demetia Diagnosis*.
+
+* **Plot 2**: still no obvious connection between *Education Level/Social Economic Status* and *Demetia Diagnosis*.
+
+* **Plot 3**: while the *MMS examination results* of objects not diagnosed with Dementia concentrate near 27-30 point rate, *MMSE results* of objects diagnosed with Dementia seems to de more spreaded. We can see that objects had the highest MMSE score but still have Clinical Dementia Rating of 0.5 or 1. No obvious connection between *Estimated total intracranial volume* and *Demetia Diagnosis*.
+
+* **Plot 4**: *Normalized whole-brain volume* seems to be more spreded for objects with CDR = 0 and narrows as CDR grows up. No obvious connection between *Atlas scaling factor* and *Demetia Diagnosis*.
+
+## 心得
+****
+
+沒想到EDA可以拿來研究失智症，真是有趣
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
