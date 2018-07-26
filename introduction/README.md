@@ -2,7 +2,7 @@
 
 :wave:: Hello World! I am Ted Lin from Taiwan!
 
-:motar_board:: National Taiwan University Physical Therapy 國立台灣大學物理治療系
+:mortar_board:: National Taiwan University Physical Therapy 國立台灣大學物理治療系
 
 :heart:: Basketball, Marathon, Neuroscience, Read good books
 
