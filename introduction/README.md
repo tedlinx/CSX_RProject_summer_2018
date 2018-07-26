@@ -1,8 +1,12 @@
 ﻿## Introducing Myself
 
-:wave: Hello World! I am Ted Lin from Taiwan!
+:wave:: Hello World! I am Ted Lin from Taiwan!
 
-:books: National Taiwan University Physical Therapy
+:motar_board:: National Taiwan University Physical Therapy 國立台灣大學物理治療系
+
+:heart:: Basketball, Marathon, Neuroscience, Read good books
+
+Fascinated by datascience, I signed up this course, hoping to learn some useful skills.
 
 
 
