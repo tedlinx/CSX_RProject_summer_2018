@@ -1,5 +1,5 @@
-
-## Syllabus½Òµ{¤º®e
+ï»¿
+## Syllabusèª²ç¨‹å…§å®¹
 
 ### week 1
 
@@ -19,7 +19,7 @@ Statistics / Web crawler
 
 ### week 5
 
-Lecture: èû´­¸ê°T-¥ø·~e¤ÆÀ³¥Î³nÅé¶}µo»PªA°È»â¾É¼t°Ó / Shiny
+Lecture: å¡æšè³‡è¨Š-ä¼æ¥­eåŒ–æ‡‰ç”¨è»Ÿé«”é–‹ç™¼èˆ‡æœå‹™é ˜å°å» å•† / Shiny
 
 ### week 6
 
