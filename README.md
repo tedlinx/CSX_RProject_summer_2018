@@ -1,6 +1,20 @@
-﻿# 資料科學程式設計[8N2033]CSX_RProject_Summer_2018
-## Self-Introduction
-******
+﻿#CSX DATASCIENCE RPROJECT 2018 SUMMERSCHOOL
+
+*****
+
+About Me :grin:|[林冠辰(Ted Lin)](https://github.com/tedlinx/CSX_RProject_summer_2018/tree/master/introduction)
+About The Course|[Syllabus](https://github.com/tedlinx/CSX_RProject_summer_2018/tree/master/aboutthecourse)
+
+*****
+
+Date|Works
+---|---
+[Week1](https://github.com/tedlinx/CSX_RProject_summer_2018/tree/master/week1)|[Try RMarkdown]( https://tedlinx.github.io/CSX_RProject_summer_2018/week1/HW1.html), [basicR]( https://tedlinx.github.io/CSX_RProject_summer_2018/week1/hw1basicR.html)
+[Week2](https://github.com/tedlinx/CSX_RProject_summer_2018/tree/master/week2)|[Data.Visulization]( https://tedlinx.github.io/CSX_RProject_summer_2018/week2/hw2-part1.html ), [Wordcloud]( https://tedlinx.github.io/CSX_RProject_summer_2018/week2/hwpart2.html)
+[Week3]()|
+
+*****
+
 * Name: 林冠辰 Kuan-Chen Lin
 * StudentID: B06408042
 * department: Physical Therapy 
