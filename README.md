@@ -1,7 +1,9 @@
-﻿#CSX DATASCIENCE RPROJECT 2018 SUMMERSCHOOL
+﻿# CSX DATASCIENCE RPROJECT 2018 SUMMERSCHOOL
 
 *****
 
+Intoduction|Content
+---|---
 About Me :grin:|[林冠辰(Ted Lin)](https://github.com/tedlinx/CSX_RProject_summer_2018/tree/master/introduction)
 About The Course|[Syllabus](https://github.com/tedlinx/CSX_RProject_summer_2018/tree/master/aboutthecourse)
 
