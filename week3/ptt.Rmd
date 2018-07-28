@@ -1,0 +1,211 @@
+---
+title: "hw3"
+author: "Ted"
+date: "2018年7月24日"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r,warning=FALSE,message=FALSE}
+library(bitops)
+library(httr)
+library(RCurl)
+library(XML)
+library(tm)
+library(NLP)
+library(tmcn)
+library(jiebaRD)
+library(jiebaR)
+```
+
+```{r,warning=FALSE,message=FALSE}
+from <- 4018 # 2018-07-23
+to   <- 4020 # 2018-07-24
+prefix = "https://www.ptt.cc/bbs/HatePolitics/index"
+
+data <- list()
+for( id in c(from:to) )
+{
+  url  <- paste0( prefix, as.character(id), ".html" )
+  html <- htmlParse( GET(url) )
+  url.list <- xpathSApply( html, "//div[@class='title']/a[@href]", xmlAttrs )
+  data <- rbind( data, as.matrix(paste('https://www.ptt.cc', url.list, sep='')) )
+}
+data <- unlist(data)
+
+head(data)
+```
+
+```{r,warning=FALSE,message=FALSE}
+library(dplyr)
+getdoc <- function(url)
+{
+    html <- htmlParse( getURL(url) )
+    doc  <- xpathSApply( html, "//div[@id='main-content']", xmlValue )
+    time <- xpathSApply( html, "//*[@id='main-content']/div[4]/span[2]", xmlValue )
+    temp <- gsub( "  ", " 0", unlist(time) )
+    part <- strsplit( temp, split=" ", fixed=T )
+    #date <- paste(part[[1]][2], part[[1]][3], part[[1]][5], sep="-")
+    #date <- paste(part[[1]][2], part[[1]][5], sep="_")
+    #date <- paste(part[[1]][1], part[[1]][2], sep="_")
+    timestamp <- part[[1]][4]
+    timestamp <- strsplit( timestamp, split=":", fixed=T )
+    hour <- timestamp[[1]][1]
+    #print(hour)
+    name <- paste0("C:/Users/TEMP/Desktop/106Summer-master/week2/ptt/", hour, ".txt")
+    write(doc, name, append = TRUE)
+}
+getwd()
+sapply(data, getdoc)
+```
+
+```{r,warning=FALSE}
+d.corpus <- Corpus( DirSource("C:/Users/TEMP/Desktop/106Summer-master/week2/ptt/") )
+d.corpus <- tm_map(d.corpus, removePunctuation)
+d.corpus <- tm_map(d.corpus, removeNumbers)
+d.corpus <- tm_map(d.corpus, function(word) {
+    gsub("[A-Za-z0-9]", "", word)
+})
+
+```
+
+
+
+```{r,warning=FALSE}
+mixseg = worker()
+jieba_tokenizer = function(d)
+{
+  unlist( segment(d[[1]], mixseg) )
+}
+seg = lapply(d.corpus, jieba_tokenizer)
+
+count_token = function(d)
+{
+  as.data.frame(table(d))
+}
+tokens = lapply(seg, count_token)
+
+n = length(seg)
+TDM = tokens[[1]]
+colNames <- names(seg)
+colNames <- gsub(".txt", "", colNames)
+for( id in c(2:n) )
+{
+  TDM = merge(TDM, tokens[[id]],by = "d", all = TRUE)
+  names(TDM) = c("d", colNames[1:id])
+}
+
+TDM[is.na(TDM)] <- 0
+library(knitr)
+kable(head(TDM))
+kable(tail(TDM))
+```
+```{r,warning=FALSE}
+
+library(Matrix)
+idfCal <- function(word_doc)
+{ 
+  log2( n / nnzero(word_doc) ) 
+}
+idf <- apply(as.matrix(TDM[,2:(n+1)]), 1, idfCal)
+
+doc.tfidf <- TDM
+# for(x in 1:nrow(TDM))
+# {
+#   for(y in 2:ncol(TDM))
+#   {
+#     doc.tfidf[x,y] <- (doc.tfidf[x,y] / tf[y]) * idf[x]
+#   }
+# }
+
+tempY = matrix(rep(c(as.matrix(tf)), each = length(idf)), nrow = length(idf))
+tempX = matrix(rep(c(as.matrix(idf)), each = length(tf)), ncol = length(tf), byrow = TRUE)
+doc.tfidf[,2:(n+1)] <- (doc.tfidf[,2:(n+1)] / tempY) * tempX
+
+stopLine = rowSums(doc.tfidf[,2:(n+1)])
+delID = which(stopLine == 0)
+
+kable(head(doc.tfidf[delID,1]))
+kable(tail(doc.tfidf[delID,1]))
+
+TDM = TDM[-delID,]
+doc.tfidf = doc.tfidf[-delID,]
+
+docs.pca <- prcomp(doc.tfidf, scale. = TRUE)
+fviz_eig(docs.pca)
+fviz_pca_ind(docs.pca, geom.ind = c("point"), col.ind = "cos2")
+fviz_pca_var(docs.pca, col.var = "contrib")
+fviz_pca_biplot(docs.pca, geom.ind = "point")
+```
+```
+
+```{r}
+TopWords = data.frame()
+for( id in c(1:n) )
+{
+  dayMax = order(doc.tfidf[,id+1], decreasing = TRUE)
+  showResult = t(as.data.frame(doc.tfidf[dayMax[1:5],1]))
+  TopWords = rbind(TopWords, showResult)
+}
+rownames(TopWords) = colnames(doc.tfidf)[2:(n+1)]
+TopWords = droplevels(TopWords)
+kable(TopWords)
+```
+
+```{r}
+TDM$d = as.character(TDM$d)
+AllTop = as.data.frame( table(as.matrix(TopWords)) )
+AllTop = AllTop[order(AllTop$Freq, decreasing = TRUE),]
+
+kable(head(AllTop))
+```
+
+```{r,warning=FALSE,error=FALSE}
+TopNo = 5
+tempGraph = data.frame()
+for( t in c(1:TopNo) )
+{
+  word = matrix( rep(c(as.matrix(AllTop$Var1[t])), each = n), nrow = n )
+  temp = cbind( colnames(doc.tfidf)[2:(n+1)], t(TDM[which(TDM$d == AllTop$Var1[t]), 2:(n+1)]), word )
+  colnames(temp) = c("hour", "freq", "words")
+  tempGraph = rbind(tempGraph, temp)
+  names(tempGraph) = c("hour", "freq", "words")
+}
+
+library(ggplot2)
+library(varhandle)
+tempGraph$freq = unfactor(tempGraph$freq)
+ggplot(tempGraph, aes(hour, freq)) + 
+  geom_point(aes(color = words, shape = words), size = 5) +
+  geom_line(aes(group = words, linetype = words))
+
+```
+```{r,message=FALSE,warning=FALSE}
+filenames = as.array(paste0("C:/Users/TEMP/Desktop/106Summer-master/week2/ptt/",colnames(doc.tfidf)[2:(n+1)],".txt"))
+sizeResult = apply(filenames, 1, file.size) / 1024
+showSize = data.frame(colnames(doc.tfidf)[2:(n+1)], sizeResult)
+names(showSize) = c("hour", "size_KB")
+library(ggplot2)
+ggplot(showSize, aes(x = hour, y = size_KB)) + geom_bar(stat="identity")
+```
+
+
+
+```{r}
+docs.pca <- prcomp(doc.tfidf, scale. = TRUE)
+fviz_eig(docs.pca)
+fviz_pca_ind(docs.pca, geom.ind = c("point"), col.ind = "cos2")
+fviz_pca_var(docs.pca, col.var = "contrib")
+fviz_pca_biplot(docs.pca, geom.ind = "point")
+```
+
+```{r}
+ind.coord2 <- docs.ind$coord[, 1:2]
+wss <- c()
+for (i in 1:10) { wss[i] <- kmeans(ind.coord2, i)$tot.withinss }
+plot(wss, type = "b")
+```
+

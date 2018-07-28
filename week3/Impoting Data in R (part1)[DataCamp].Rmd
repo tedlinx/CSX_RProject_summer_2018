@@ -1,0 +1,93 @@
+---
+title: "Impoting Data in R (part1)[DataCamp]"
+author: "Ted"
+date: "July 19, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## impoting data
+5 types
+1. flat files(utils: read.csv)
+2. excel
+3. databases
+4. web
+5. statistical software
+
+flat files
+1. read.csv
+to import files with `.csv`
+
+>read.csv("檔案", stringAsFactors = FALSE)
+
+從home directory 讀取檔案
+
+> path <- file.path("~", "dataset(working directory)", "檔案CSV")
+> read.csv(path, stringAsFactors = FALSE)
+
+stringAsFactors: import strings as categorical variables (default = TRUE: strings as factor把向量都變成)
+If you set `stringsAsFactors = FALSE`, the data frame columns corresponding to strings in your text file will be `character`
+
+strings 介紹
+[R-string](https://www.tutorialspoint.com/r/r_strings.htm)
+Any value written within a pair of single quote or double quotes in R is treated as a string.
+
+**String Manipulation**
+Concatenating Strings - paste() function
+
+Many strings in R are combined using the paste() function. It can take any number of arguments to be combined together.
+`paste(..., sep = " ", collapse = NULL)`
+
+`...` represents any number of arguments to be combined.
+
+`sep` represents any separator between the arguments. It is optional.
+
+`collapse` is used to eliminate the space in between two strings. But not the space within two words of one string.
+
+Extracting parts of a string - substring() function
+
+This function extracts parts of a String
+`substring(x,first,last)`
+
+`x` is the character vector input.
+
+`first` is the position of the first character to be extracted.
+
+`last` is the position of the last character to be extracted.
+
+用dir()來檢查working directory 中有那些files
+用str()看資料結構
+
+2. read.delim
+to import files with `.txt`
+
+>read.delim("檔案.txt", header = TRUE, 
+             sep = "\t", 
+             stringAsFactor = FALSE)
+
+defult
+
+`sep = "\t"` (fields in a record are delimited by tabs)
+
+`header = TRUE` (the first row contains the field names)
+
+3. read.table
+to import files wit `.txt`
+
+>read.table(path, 
+            header = FALSE, 
+            sep = "", 
+            )
+
+default
+
+`header = FALSE` 
+
+`sep = ""`
+
+use function to find min and max values
+
+>hotdogs[which.max(hotdogs$sodium), ]

@@ -1,0 +1,139 @@
+---
+title: "PCA"
+author: "Ted"
+date: "2018年7月23日"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## General methods for principal component analysis
+
+### prcomp() and princomp() functions
+
+```{r, eval = FALSE}
+prcomp(x, scale = FALSE)
+princomp(x, cor = FALSE, scores = TRUE)
+
+```
+
+Arguments for prcomp():
+x: a numeric matrix or data frame
+scale: a logical value indicating whether the variables should be scaled to have unit variance before the analysis takes place
+
+Arguments for princomp():
+x: a numeric matrix or data frame
+cor: a logical value. If TRUE, the data will be centered and scaled before the analysis
+scores: a logical value. If TRUE, the coordinates on each principal component are calculated
+
+prcomp() name | princomp() name |	Description
+--- | --- | ---
+sdev | sdev	| the standard deviations of the principal components
+rotation | loadings |	the matrix of variable loadings (columns are eigenvectors)
+center | center	| the variable means (means that were substracted)
+scale	| scale	| the variable standard deviations (the scaling applied to each variable )
+x	| scores	| The coordinates of the individuals (observations) on the principal components.
+
+### PCA visualization
+
+use the factoextra R package to create a ggplot2-based elegant visualization.
+
+1. Load the data
+2. Load factoextra for visualization
+3. Compute PCA
+4. Visualize eigenvalues (scree plot). Show the percentage of variances explained by each principal component.
+5. Graph of individuals. Individuals with a similar profile are grouped together.
+6. Graph of variables. Positive correlated variables point to the same side of the plot. Negative correlated variables point to opposite sides of the graph.
+7. Biplot of individuals and variables
+
+```{r, message=FALSE, error=FALSE, warning=FALSE, eval=FALSE}
+install.packages("factoextra")
+# OR
+if(!require(devtools)) install.packages("devtools")
+devtools::install_github("kassambara/factoextra")
+# then
+library(factoextra)
+```
+
+```{r, message=FALSE, error=FALSE, warning=FALSE,}
+library("factoextra")
+data(decathlon2)
+decathlon2.active <- decathlon2[1:23, 1:10]
+head(decathlon2.active[, 1:6])
+```
+
+```{r, message=FALSE, error=FALSE, warning=FALSE,echo=FALSE }
+library(factoextra)
+```
+
+```{r, message=FALSE, error=FALSE, warning=FALSE,}
+res.pca <- prcomp(decathlon2.active, scale = TRUE)  # Compute PCA
+
+fviz_eig(res.pca)  # Visualize eigenvalues
+
+fviz_pca_ind(res.pca,
+             col.ind = "cos2", # Color by the quality of representation
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE     # Avoid text overlapping
+             )  # Graph of individuals
+
+fviz_pca_var(res.pca,
+             col.var = "contrib", # Color by contributions to the PC
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE     # Avoid text overlapping
+             )  # Graph of variables
+
+fviz_pca_biplot(res.pca, repel = TRUE,
+                col.var = "#2E9FDF", # Variables color
+                col.ind = "#696969"  # Individuals color
+                )  # Biplot of individuals and variables
+```
+
+### Access to the PCA results
+
+```{r}
+library(factoextra)
+
+# Eigenvalues
+eig.val <- get_eigenvalue(res.pca)
+head(eig.val)
+  
+# Results for Variables
+res.var <- get_pca_var(res.pca)
+head(res.var$coord)          # Coordinates
+head(res.var$contrib)        # Contributions to the PCs
+head(res.var$cos2)           # Quality of representation 
+# Results for individuals
+res.ind <- get_pca_ind(res.pca)
+head(res.ind$coord)          # Coordinates
+head(res.ind$contrib)        # Contributions to the PCs
+head(res.ind$cos2)           # Quality of representation 
+
+```
+
+### Predict using PCA
+
+We’ll show how to predict the coordinates of supplementary individuals and variables by the previously performed PCA.
+
+### Theory behind PCA results
+
+#### PCA results for variables
+
+here we’ll show how to calculate the PCA results for variables: coordinates, cos2 and contributions:
+
+1. `var.coord` = loadings * the component standard deviations
+2. `var.cos2` = var.coord^2
+3. `var.contrib`  The contribution of a variable to a given principal component is (in percentage) : (var.cos2 * 100) / (total cos2 of the component)
+
+#### PCA results for individuals
+
+1. `ind.coord` = res.pca$x
+2. Cos2 of individuals. Two steps:
+  
+  * Calculate the square distance between each individual and the PCA center of gravity: d2 = [(var1_ind_i - mean_var1)/sd_var1]^2 + …+ [(var10_ind_i - mean_var10)/sd_var10]^2 + …+..
+  * Calculate the cos2 as ind.coord^2/d2
+3. Contributions of individuals to the principal components: 100(1 / number_of_individuals)(ind.coord^2 / comp_sdev^2) 
+
+*Note that the sum of all the contributions per column is 100*

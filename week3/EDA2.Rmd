@@ -1,0 +1,20 @@
+---
+title: "EDA"
+author: "Ted"
+date: "2018年7月17日"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Contingency Table
+*****
+`levels`:一組類別變數，要查看裡面存在著哪些類別時
+
+`$`: refers to a specific column relative to a specific data frame (data$colomn)
+
+`table`:summarize a data sample  table(column_name1, column_name2,...) colomn_name 要打 data$colomn
+
+`droplevels`:用來去除不要的類別　

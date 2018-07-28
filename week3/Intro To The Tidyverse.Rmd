@@ -1,0 +1,18 @@
+---
+title: "Intro To The Tidyverse"
+author: "Ted"
+date: "2018年7月17日"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+`filter()`: 用來提取資料
+
+`%>%`: pipe要放在line的結尾, 連結用
+
+`arrange()`:用來排序變數, defult是遞增排列,`arrange(dec(())`遞減
+
+`mutate()`:用來改變colonm

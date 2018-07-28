@@ -1,0 +1,281 @@
+---
+title: "textminig"
+author: "Ted"
+date: "2018年7月23日"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R 語言的文字函數
+
+文字函數有哪些
+nchar()
+paste()
+sprintf()
+toupper()
+tolower()
+substr()
+strsplit()
+regexpr()
+gregexpr()
+grep()
+grepl()
+sub()
+gsub()
+
+#### nchar()
+
+* 計算文字的字元數
+* nchar(x)
+```{r}
+my_name <- "Tony Kuo"
+# 計算字元數
+nchar(my_name)
+```
+
+#### paste()
+
+* 將數個文字連結為一個文字
+* paste(..., sep = )
+```{r}
+first_word <- "How"
+second_word <- "you"
+third_word <- "doing?"
+# 將這三個字連結為一句話
+paste(first_word, second_word, third_word)
+paste(first_word, second_word, third_word, sep = "")
+paste(first_word, second_word, third_word, sep = ",")
+```
+
+#### sprintf()
+
+* paste() 函數的強化版
+* sprintf(...)
+```{r} 
+ favorite_food <- "sandwich"
+# 印出 My favorite food is sandwich.
+sprintf("My favorite food is %s.", favorite_food)
+```
+
+#### toupper()
+
+* 將文字全部轉換為大寫
+* toupper(x)
+```{r}
+ a_sentence <- "How you doing?"
+# 將 a_sentence 全部轉換為大寫
+toupper(a_sentence)
+```
+
+#### tolower()
+
+* 將文字全部轉換為小寫
+* tolower(x)
+```{r}
+ a_sentence <- "How you doing?"
+# 將 a_sentence 全部轉換為小寫
+tolower(a_sentence)
+```
+
+#### substr()
+
+* 擷取文字的某個部分
+* substr(x, start = , stop = )
+```{r}
+ a_favorite_character <- "Chandler Bing"
+# 透過 substr() 分別擷取出姓、名
+his_first_name <- substr(a_favorite_character, start = 1, stop = 8)
+his_last_name <- substr(a_favorite_character, start = 10, stop = 13)
+his_first_name
+his_last_name
+```
+
+#### strsplit()
+
+* 將一個文字依照分隔符號（split）拆開為數個文字
+* strsplit(x, split = )
+```{r}
+ a_sentence <- "How you doing?"
+# 依照空格拆成三個文字
+strsplit(a_sentence, split = " ")
+```
+
+#### regexpr()
+
+* 尋找單一文字中的指定特徵並回傳第一個找到的索引值
+* regexpr(pattern = , x)
+```{r} 
+ a_sentence <- "we were on a break!"
+# 尋找 we
+regexpr(pattern = "we", a_sentence)
+```
+
+#### gregexpr()
+
+* 尋找單一文字中的指定特徵並回傳全部的索引值
+* gregexpr(pattern = , x)
+```{r} 
+ a_sentence <- "we were on a break!"
+# 尋找 we
+gregexpr(pattern = "we", a_sentence)
+```
+
+#### grep()
+
+* 尋找文字向量中的指定特徵並回傳索引值
+* grep(pattern = , x)
+```{r} 
+ a_sentence <- c("we", "were", "on", "a", "break!")
+# 尋找 we、on 與 hello
+grep(pattern = "we", a_sentence)
+grep(pattern = "on", a_sentence)
+grep(pattern = "hello", a_sentence) # 找不到回傳 integer(0)
+```
+
+#### grepl()
+
+* 跟 grep() 相似，只是以邏輯值（logical）回傳而非索引值
+* grepl(pattern = , x)
+```{r} 
+ a_sentence <- c("we", "were", "on", "a", "break!")
+# 尋找 we
+grepl(pattern = "we", a_sentence)
+```
+
+#### sub()
+
+* 尋找文字中的指定特徵並取代第一個為指定文字
+* sub(pattern = , replacement = , x)
+```{r} 
+ a_sentence <- "Smelly cat, smelly cat, what are they feeding you?"
+# 將第一個 cat 取代為 dog
+sub(pattern = "cat", replacement = "dog", a_sentence)
+````
+
+#### gsub()
+
+* 尋找文字中的指定特徵並全部取代為指定文字
+* gsub(pattern = , replacement = , x)
+```{r} 
+ a_sentence <- "Smelly cat, smelly cat, what are they feeding you?"
+# 將全部的 cat 取代為 dog
+gsub(pattern = "cat", replacement = "dog", a_sentence)
+```
+
+## 正規表達式（Regular Expression）
+
+哪些文字函數可以使用正規表達式？
+strsplit()
+regexpr()
+gregexpr()
+grep()
+grepl()
+sub()
+gsub()
+
+#### 常用的正規表達式範例
+
+特徵|正規表達式寫法
+----|----
+整數|[0-9]+
+浮點數|[0-9]+\\.[0-9]+
+英文|[A-Za-z]+
+電子郵件信箱|[a-zA-Z0-9_]+@[a-zA-Z0-9\\._]+
+網址|http(s)?://[a-zA-Z0-9\\./_]+
+
+練習
+```{r,warning=FALSE}
+# 判斷這個向量有幾個浮點數
+ distances <- c("0.4", "1", "3", "5", "10", "21", "42.195")
+float_judge <- grepl(pattern = "[0-9]+\\.[0-9]+", distances)
+sum(float_judge)
+
+# 判斷這個向量有幾個元素包含英文
+ sentences <- c("我喜歡 6 人行", "I love Friends", "我最喜歡 Central Perk", "我喜歡那個咖啡館")
+en_judge <- grepl(pattern = "[A-Za-z]+", sentences)
+sum(en_judge)
+
+# 判斷這個向量有幾個元素包含電子郵件信箱
+ sentences <- c("我喜歡 6 人行", "I love Friends", "我最喜歡 Central Perk", "我喜歡那個咖啡館", "cbing@friends.com", "pbuffay@friends.com", "www.friends.com")
+email_judge <- grepl(pattern = "[a-zA-Z0-9_]+@[a-zA-Z0-9\\._]+", sentences)
+sum(email_judge)
+```
+
+#### 正規表達式的特殊字元
+
+* . 可以用來表達任何字元
+* \ 可以用來跳脫特殊字元
+* ^ 可以用來比對開頭文字
+* $ 可以用來比對結束文字
+* * 可以用來比對出現零次或多次的文字
+* + 可以用來比對出現一次或多次的文字
+* ? 可以用來比對出現零次或一次的文字
+* {} 可以用來比對文字出現的次數
+* x{3} 剛好三個 x
+* x{1,3} 一到三個 x
+* x{1,} 至少一個 x
+* x{,3} 最多三個 x
+* [] 可以用來比對是否包含某些文字
+* [^] 可以用來比對是否不包含某些文字
+* | 可以用來比對或
+* \n 比對換行符號
+* \s 比對空白
+* \t 比對 Tab
+```{r,warning=FALSE}
+words <- c("", " ", "a", "24", "@")
+grepl(pattern = ".", words)
+
+words <- c("Chandler Bing", "Chandler.Bing")
+# 如果我真的要比對 . 這個符號呢？
+grepl(pattern = ".", words)
+grepl(pattern = "\\.", words)
+
+words <- c("Bing", "Geller", "Green", "Buffay", "Tribbiani")
+grepl(pattern = "^G", words)
+
+sentence <- c("Monica", "darling", "it's", "Amanda", "calling")
+grepl(pattern = "ing$", sentence)
+
+words <- c("friends", "frriends", "fantasy", "Friends")
+grepl(pattern = "fr*", words)
+
+words <- c("friends", "frriends", "fantasy", "Friends")
+grepl(pattern = "fr+", words)
+
+words <- c("friends", "fantasy")
+grepl(pattern = "fr?", words)
+
+words <- c("y", "x", "xx", "xxx")
+grepl(pattern = "x{3}", words)
+grepl(pattern = "x{1,3}", words)
+grepl(pattern = "x{1,}", words)
+grepl(pattern = "x{,3}", words)
+
+sentences <- c("我喜歡 6 人行", "I love Friends", "我最喜歡 CENTRAL PERK", "我喜歡那個咖啡館")
+grepl(pattern = "[0-9]", sentences) # 是否含數字
+grepl(pattern = "[0-9a-z]", sentences) # 是否含數字與小寫英文
+grepl(pattern = "[0-9a-zA-Z]", sentences) # 是否含數字與英文
+
+words <- c("10", "Friends", "六人行")
+grepl(pattern = "[^0-9]", words) # 非數字
+grepl(pattern = "[^0-9A-Za-z]", words) # 非數字與非英文
+
+words <- c("food", "foot", "hood")
+grepl(pattern = "foo(d|t)", words)
+
+sentence <- c("Monica darling, it's Amanda calling",
+              "Monica darling,
+               it's Amanda calling")
+grepl(pattern = "\\n", sentence)
+
+sentence <- c("IloveFriends", "I love Friends")
+grepl(pattern = "\\s", sentence)
+
+sentence <- c("I love Friends", "I\tlove\tFriends")
+writeLines(sentence)
+grepl(pattern = "\\t", sentence)
+```
+

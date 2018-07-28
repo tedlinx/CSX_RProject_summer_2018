@@ -1,0 +1,93 @@
+---
+title: "KMeans"
+author: "Ted"
+date: "2018年7月23日"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### KMeans Clustering with R
+
+**general idea**: Clustering algorithm is to partition a given dataset into distinct, exclusive clusters so that the data points in each group are quite similar to each other.
+
+the way K-Means algorithms work is via an iterative refinement process:
+
+1. Each data point is randomly assigned to a cluster (number of clusters is given before hand).**見註解**
+2. Each cluster’s centroid (mean within cluster) is calculated.
+3. Each data point is assigned to its nearest centroid (iteratively to minimise the within-cluster variation) until no major differences are found.
+
+>Q:how to deal with data that contains multiple (or more than 2) variables?
+
+>A:perform PCA and then plot the first two vectors and maybe additionally apply K-Means
+
+註解:
+1. 通常產生亂數序列希望是不會重復的, 實際上, R 在現在操作視窗下, 第一次產生時亂數時, 從當下
+時間 (current time), 生成一個 種子 (seed) 出發, 不斷迭代更新產生隨機均等分配亂數 (uniform random number),所以不同時間下執行R,啟用不同的種子,隨後內部的隨機種子就已經改變了,模擬亂數是不會重復的,有時我們需要模擬結果是可重復的亂數序列, 此時需要用函式 set.seed(), 在每次產生偽隨機亂數之前,把種子設定種子為某一特定正整數即可.
+
+#### Example
+
+1. **Load data**: attitude
+2. **Take a subset** of the attitude dataset and consider only two variables in our K-Means clustering
+3. Plot the data
+4. **Apply K-Means clustering** to this data set and try to assign each department to a specific number of clusters that are “similar” (we randomly chose the number of clusters to be 2 for illustration purposes only)
+5. **The Elbow method** examines the within-cluster dissimilarity as a function of the number of clusters( Check for the optimal number of clusters)
+6. Apply the identified number of clusters onto the K-Means algorithm and **plot the results**
+```{r, warning=FALSE, error=FALSE}
+# Load necessary libraries
+library(datasets)
+
+# Inspect data
+str(attitude)
+
+# Summarise data
+summary(attitude)
+
+```
+
+```{r}
+# Subset the attitude data
+dat = attitude[,c(3,4)]
+
+# Plot subset data
+plot(dat, main = "% of favourable responses to
+     Learning and Privilege", pch =20, cex =2)
+```
+
+```{r}
+# Perform K-Means with 2 clusters
+set.seed(7)
+km1 = kmeans(dat, 2, nstart=100)
+
+# Plot results
+plot(dat, col =(km1$cluster +1) , main="K-Means result with 2 clusters", pch=20, cex=2)
+```
+
+```{r}
+# Check for the optimal number of clusters given the data
+# an optimal number of clusters is identified once a “kink” in the line plot is observed
+mydata <- dat
+wss <- (nrow(mydata)-1)*sum(apply(mydata,2,var))
+  for (i in 2:15) wss[i] <- sum(kmeans(mydata,
+                                       centers=i)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares",
+     main="Assessing the Optimal Number of Clusters with the Elbow Method",
+     pch=20, cex=2)
+
+```
+
+```{r}
+# Perform K-Means with the optimal number of clusters identified from the Elbow method
+set.seed(7)
+km2 = kmeans(dat, 6, nstart=100)
+
+# Examine the result of the clustering algorithm
+km2
+
+# Plot results
+plot(dat, col =(km2$cluster +1) , main="K-Means result with 6 clusters", pch=20, cex=2)
+
+```

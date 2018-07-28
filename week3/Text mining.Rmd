@@ -1,0 +1,131 @@
+---
+title: "Text Mining"
+author: "Ted"
+date: "July 19, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R style Rules
+
+### Notation and Naming
+
+File Names
+File names should end in .R
+
+#### Identifiers
+naming conventions
+ Don't use underscores ( _ ) or hyphens ( - ) in identifiers
+
+variable names
+  lower case letters
+  words separated with dots
+    variable.name is preferred, 
+    variableName is accepted 
+    
+function names 
+  initial capital letters and 
+  no dots (FunctionName)
+    FunctionName
+
+constants names
+  like functions but with an initial k.
+    kConstantName
+
+### Syntax
+
+#### Indentation
+  use two spaces. Never use tabs or mix tabs and spaces. 
+  
+#### Spacing
+  Place spaces around all binary operators(=, +, -, <-, etc.). 
+  Place a space before left parenthesis, except in a function call
+    GOOD:if (debug)
+  Do not place a space before a comma, but always place one after a comma.
+  Do not place spaces around code in parentheses or square brackets.
+  
+#### Curly Braces
+ An opening curly brace should never go on its own line; a closing curly brace should  always go on its own line
+
+>if (is.null(ylim)) {
+  ylim <- c(0, 0.06)
+}
+
+ An else statement should always be surrounded on the same line by curly braces.
+
+>if (condition) {
+  one or more lines
+} else {
+  one or more lines
+}
+
+#### Assignment
+Use <-, not =, for assignment.
+  
+### General Layout and Ordering
+general ordering(more easy to read)
+
+1. Copyright statement comment
+2. Author comment
+3. File description comment, including purpose of program, inputs, and outputs
+4 source() and library() statements
+5. Function definitions
+6. Executed statements, if applicable (e.g., print, plot)
+
+#### Commenting Guidelines
+ #and one space
+ Short comments can be placed after code preceded by two spaces, #, and then one space
+
+#### Function Definitions and Calls
+line breaks are only allowed between assignments
+
+>PredictCTR <- function(query, property, num.days,
+                       show.plot = TRUE)
+
+#### Function Documentation
+contain a comments section immediately below the function definition line
+consist of
+  a one-sentence description of the function
+  a list of the function's arguments, denoted by Args:, with a description of each (including the data type)
+  a description of the return value (denoted by Returns:)
+  *The comments should be descriptive enough that a caller can use the function without reading any of the function's code*
+
+### Errors
+
+#### Attach
+The possibilities for creating errors when using attach are numerous. Avoid it.
+
+#### Functions
+Errors should be raised using stop()
+
+### Final words
+ BE CONSISTENT
+
+*******
+
+## TF-IDF
+
+### Segmentation, Term Document Matrix
+
+基本流程
+
+1. 讀檔
+2.把[1][2] …這種註解去掉（文本是從 wiki 複製下來的）
+3. 把 docs 轉成 corpus(語料庫)
+4. 斷詞
+5. 把斷詞結果轉換成 term-document matrix
+6. 看一下轉換後的結果
+
+
+
+docs <- readLines("檔案.txt")  # 讀檔
+docs <- gsub("\\[[0-9]+\\]", "", docs)  # 把[1][2] …這種註解去掉（文本是從 wiki 複製下來的）
+docs.corpus <- Corpus(VectorSource(docs))  # 把 docs 轉成 corpus(語料庫)
+docs.seg <- tm_map(docs.corpus, segmentCN)
+  # 斷詞
+docs.tdm <- TermDocumentMatrix(docs.seg, control = list())  # 把斷詞結果轉換成 term-document matrix
+inspect(docs.tdm)  # 看一下轉換後的結果
+

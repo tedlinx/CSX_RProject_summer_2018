@@ -1,0 +1,111 @@
+---
+title: "Regression"
+author: "Ted"
+date: "July 25, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### 讀檔
+
+```{r, message=FALSE,warning=FALSE}
+longitudinal <- read.csv("C:\\Users\\B06408042\\Desktop\\GitHub\\CSX_RProject_summer_2018\\week3\\oasis_longitudinal.csv", header=TRUE)
+crosssectional <- read.csv("C:\\Users\\B06408042\\Desktop\\GitHub\\CSX_RProject_summer_2018\\week3\\oasis_crosssectional.csv", header= TRUE)
+```
+
+### 工作空間設定
+
+```{r,message=FALSE,warning=FALSE}
+
+library(ggplot2)
+library(dplyr)
+library(Hmisc)
+library(PerformanceAnalytics)
+library(cowplot)
+library(caret)
+library(rpart)
+library(rpart.plot)
+library(e1071)
+library(randomForest)
+library(gbm)
+library(Metrics)
+library(vtreat)
+library(AUC)
+```
+
+### 清理資料(longitudinal)
+
+```{r,message=FALSE,warning=FALSE}
+
+#因為大家都是右撇子，所以去除Hand
+Datal <- select(longitudinal, -Hand)
+
+#把SES,MMSE這兩欄的missing value替換成median
+Datal$SES[is.na(Datal$SES)] <- median(Datal$SES, na.rm = TRUE)
+
+Datal$MMSE[is.na(Datal$MMSE)] <- median(Datal$MMSE, na.rm = TRUE)
+```
+
+### 看看資料
+
+```{r,message=FALSE,warning=FALSE}
+str(Datal)
+head(Datal)
+summary(Datal)
+```
+
+### 分析
+
+1. 
+
+```{r}
+Datal %>%
+    select(Subject.ID, Age, CDR) %>%
+    group_by(Subject.ID, CDR) %>%
+    summarise_all(funs(min)) %>%
+    as.data.frame() %>%
+    mutate(CDR = as.factor(CDR)) %>%
+# 盒鬚圖
+ggplot( aes(x = CDR, y = Age)) +
+ geom_boxplot() + 
+ coord_flip() +
+ labs( x = 'CDR', y = 'Age', 
+       title = 'Age and Dementia')
+
+# 信賴區間
+with(Datal, 
+     tapply(Age,CDR ,
+     function(x) 
+       c(mean(x) + c(-2, 2) * sd(x)/sqrt(length(x)))))
+```
+
+2.
+
+```{r}
+Datal %>%
+    select(Subject.ID, EDUC, CDR) %>%
+    group_by(Subject.ID, CDR) %>%
+    summarise_all(funs(min)) %>%
+    as.data.frame() %>%
+    mutate(CDR = as.factor(CDR)) %>%
+# # 盒鬚圖  
+ggplot( aes(x = CDR, y = EDUC)) +
+ geom_boxplot() + 
+ coord_flip() +
+ labs( x = 'CDR', y = 'EDUC', 
+       title = 'Education and Dementia')
+
+# 信賴區間
+with(Datal, 
+     tapply(EDUC,CDR ,
+     function(x) 
+       c(mean(x) + c(-2, 2) * sd(x)/sqrt(length(x)))))
+
+# t-test: 性別
+Datal %>%
+  mutate(M.F = as.factor(M.F))
+t.test(CDR ~ M.F, data = Datal, var.equal = TRUE)
+```

@@ -1,0 +1,28 @@
+---
+title: "tm packages"
+author: "Ted"
+date: "July 18, 2018"
+output: html_document
+---
+[R文本挖掘之tm包](http://yphuang.github.io/blog/2016/03/04/text-mining-tm-package/)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## tm 包
+tm包是R文本挖掘的package。
+
+## 數據載入Data Import
+*****
+
+ tm的主結構叫Corpus(語料庫)，用來代表一些文檔的集合。Corpus又分成兩種
+
+1. Volatile Corpus(動態語料庫):儲存於R的語料庫`VCorpus(x, readerControl = list(reader = reader(x), language = "en"))`
+载入x
+* DirSource():从本地文件目录夹导入
+* VectorSource():输入文本构成的向量
+* DataframeSource():输入文本构成的data frame
+as.VCorpus(x)
+
+2. Permanent Corpus(靜態語料庫):儲存在R外面的語料庫
+

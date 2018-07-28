@@ -4,6 +4,14 @@ author: "Ted"
 date: "July 15, 2018"
 output: html_document
 ---
+#EDA重點
+****
+
+1. 目標: 資料探索獲得資訊
+2. 維度: X,Y,Z,顏色,大小,形狀,時間
+3. 策略: 製造合理的欄位
+4. 工具: 用資料視覺化，了解資料內涵
+5. **問出好問題**
 
 #輕鬆學習R語言
 ***
@@ -18,7 +26,7 @@ dim(iris) # 告訴我們內建資料 iris 有幾個觀測值與有幾個變數
 ```
 
 * `nrow()` 函數命名是 number of rows 的縮寫
-*`ncol()` 函數命名是 number of columns 的縮寫
-*`dim()` 函數命名是 dimensions 的縮寫
+* `ncol()` 函數命名是 number of columns 的縮寫
+* `dim()` 函數命名是 dimensions 的縮寫
 
 
