@@ -1,0 +1,244 @@
+---
+title: "CreditCard"
+author: "Ted"
+date: "2018年7月31日"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 問題 
+
+
+* 拖欠付款的機率和什麼變項有關?
+* 可不可以透過變數來預測一個人會不會拖欠付款?
+
+這些問題關係到銀行要讓哪種人貸款比較安全(會準時還款)
+
+1. 教育程度比較高的人比較不會欠款?
+2. 女生較男生不容易欠款?
+3. 未婚的人比較可能欠款?
+
+綜合四個變數來看，哪一種族群最不容易欠款?哪一種族群最有可能欠款?
+
+## 原始資料變數解釋
+
+
+**我用來分析的變數** 
+
+ LIMIT_BAL:信用額度
+
+ SEX 性別(1 = male; 2 = female).
+
+ Education教育程度 (1 = graduate school; 2 = university; 3 = high school; 0, 4, 5, 6 = others).
+
+ Marital status婚姻狀態 (1 = married; 2 = single; 3 = divorce; 0=others).
+
+ Age 年齡(year)
+
+default payment next month: 是否拖延繳款(1 = 是, 0 = 否) 
+
+
+**以下變數因為和我有興趣的問題較不相關所以暫時不使用**
+
+Pay_0~6:過去一個月的繳款紀錄(依序為2005-09 ~ 2005-04).
+
+* -2 沒有用信用卡消費No consumption
+* -1 全部繳清Paid in full
+* 0 使用循還信貸The use of revolving credit
+* 1 拖延繳款1個月payment delay for one month
+* 2 拖延繳款2個月payment delay for two months 
+* 以此類推
+* 9 拖延繳款9個月以上(含九個月)payment delay for nine months and above
+
+BILL_AMT1~6 信用卡帳單(依序為2005-09 ~ 2005-04)
+
+PAY_AMT1~6 前期付費(依序為2005-09 ~ 2005-04)
+
+```{r,warning=FALSE}
+# 讀取資料
+library(tidyr)
+library(stringr)
+path =  "C:\\Users\\B06408042\\Desktop\\GitHub\\CSX_RProject_summer_2018\\week4\\UCI_Credit_Card.csv"
+TB = read.csv(path)
+
+
+# 因為教育一欄中0456都代表others，所以將這些欄位置換以免影響分析
+TB$EDUCATION = str_replace_all(TB$EDUCATION, c("5" = "0", "6" = "0", "4" = "0"))
+
+
+# 轉成factor
+TB$ID = factor(TB$ID)
+TB$SEX = factor(TB$SEX, labels = c("male", "female"))
+TB$EDUCATION = factor(TB$EDUCATION, labels = c("others","graduate school", "university", "high school"))
+TB$MARRIAGE = factor(TB$MARRIAGE, labels = c("others","married", "single","divorce"))
+TB$AGE = factor(TB$AGE)
+TB$PAY_0 = factor(TB$PAY_0, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 1 month", "delay 2 month","delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
+TB$PAY_2 = factor(TB$PAY_2, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 1 month", "delay 2 month","delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
+TB$PAY_3 = factor(TB$PAY_3, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 1 month", "delay 2 month","delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
+TB$PAY_4 = factor(TB$PAY_4, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 1 month", "delay 2 month","delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
+TB$PAY_5 = factor(TB$PAY_5, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 2 month", "delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
+TB$PAY_6 = factor(TB$PAY_6, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 2 month", "delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
+
+
+
+# 重新命名
+names(TB)[2]<-"given_credit"
+names(TB)[3]<-"sex"
+names(TB)[4]<-"education"
+names(TB)[5]<-"marriage"
+names(TB)[6]<-"age"
+names(TB)[25]<-"default"
+
+# 看一下改好的資料
+str(TB)
+```
+
+## 畫圖觀察
+
+以年齡分組算各組拖欠繳款率再分別和其他變數作圖
+```{r, echo=FALSE,message=FALSE,warning=FALSE}
+library(ggplot2)
+library(dplyr)
+
+d<-TB%>%
+  group_by(sex,education,age,marriage)%>%
+  summarise(defaultAvg = mean(default))
+
+# 以年齡分組算各組拖欠繳款率再分別和其他變數作圖
+ggplot(d, aes(x = age, y = defaultAvg, color = sex))+ 
+  geom_point()+
+  facet_grid(. ~ sex)
+ggplot(d, aes(x = age, y = defaultAvg, color = education))+ 
+  geom_point()+
+  facet_wrap(~ education)
+ggplot(d, aes(x = age, y = defaultAvg, color = marriage))+
+  geom_point()+
+  facet_wrap(~ marriage)
+
+
+ggplot(d, aes(x = marriage, y = defaultAvg))+
+  geom_boxplot()
+ggplot(d, aes(x = sex, y = defaultAvg))+
+  geom_boxplot()
+ggplot(d, aes(x = education, y = defaultAvg))+
+  geom_boxplot()
+```
+
+## 資料分析
+
+### T-Test
+```{r,warning=FALSE}
+da<-TB%>%
+  group_by(age,sex)%>%
+  summarise(defaultAvg = mean(default))
+t.test(defaultAvg ~ sex, da)
+```
+結果:
+男女之間的差異不顯著
+
+
+### ANOVA
+
+#### 教育程度和拖欠
+```{r,warning=FALSE}
+de<-TB%>%
+  group_by(age,education)%>%
+  summarise(defaultAvg = mean(default))
+resulte = aov(defaultAvg~education, de)
+summary(resulte)
+```
+
+組間有顯著差異，檢查是哪幾組間差異最顯著
+```{r,warning=FALSE}
+TukeyHSD(resulte)
+```
+結果:
+others和其他學歷之間有顯著差異
+
+
+#### 婚姻狀態和拖欠
+```{r,warning=FALSE}
+dm<-TB%>%
+  group_by(age,marriage)%>%
+  summarise(defaultAvg = mean(default))
+resultm = aov(defaultAvg~marriage, dm)
+summary(resultm)
+```
+組間有顯著差異
+```{r,warning=FALSE}
+TukeyHSD(resultm)
+```
+結果:
+已婚和離婚與others之間有顯著差異
+
+
+#### 性別和拖欠
+```{r,warning=FALSE}
+ds<-TB%>%
+  group_by(age,sex)%>%
+  summarise(defaultAvg = mean(default))
+results = aov(defaultAvg~sex, ds)
+summary(results)
+```
+組間沒有顯著差異
+```{r,warning=FALSE}
+TukeyHSD(results)
+```
+結果:
+男女之間沒有顯著差異
+
+
+## Model
+
+以年齡分群看教育對拖延還款率之間的關聯
+```{r,message=FALSE,warning=FALSE}
+library(Hmisc)
+
+anova(m1 <- lm(defaultAvg ~ education, de))
+ggplot(de, aes(group = education , 
+           y =defaultAvg , x = age )) +
+  geom_point() +
+  stat_smooth(method = 'lm', se = F) +
+  stat_smooth(aes(group = education , 
+                  y =defaultAvg , x = age), 
+              method = 'lm', se = F) + 
+  facet_grid( . ~  education) +
+  labs(x ="age", y = "education" )
+```
+
+以年齡分群看婚姻狀態對拖延還款率之間的關聯
+```{r,message=FALSE,warning=FALSE}
+anova(m2 <- lm(defaultAvg ~ marriage, dm))
+ggplot(dm, aes(group = marriage , 
+               y =defaultAvg , x = age )) +
+  geom_point() +
+  stat_smooth(method = 'lm', se = F) +
+  stat_smooth(aes(group = marriage , 
+                  y =defaultAvg , x = age), 
+              method = 'lm', se = F) + 
+  facet_grid( . ~  marriage) +
+  labs(x ="age", y = "marriage" )
+```
+
+以年齡分群看性別對拖延還款率之間的關聯
+```{r,message=FALSE,warning=FALSE}
+anova(m3 <- lm(defaultAvg ~ sex, ds))
+ggplot(ds, aes(group = sex , 
+               y =defaultAvg , x = age )) +
+  geom_point() +
+  stat_smooth(method = 'lm', se = F) +
+  stat_smooth(aes(group = sex , 
+                  y =defaultAvg , x = age), 
+              method = 'lm', se = F) + 
+  facet_grid( . ~  sex) +
+  labs(x ="age", y = "sex" )
+
+```
+
+## 結論
+
+整體來看，拖延還款可能和性別、婚姻狀態、教育程度都沒有直接的關聯性
+

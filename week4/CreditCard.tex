@@ -1,0 +1,490 @@
+\documentclass[ignorenonframetext,]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\newif\ifbibliography
+\hypersetup{
+            pdftitle={CreditCard},
+            pdfauthor={Ted},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight0.8\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \let\insertsectionnumber\relax
+    \let\sectionname\relax
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+\title{CreditCard}
+\author{Ted}
+\date{2018年7月31日}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}[fragile]{問題構思}
+
+\begin{itemize}
+\tightlist
+\item
+  拖欠付款的機率和什麼變項有關?
+\item
+  可不可以透過變數來預測一個人會不會拖欠付款?
+\end{itemize}
+
+這些問題關係到銀行要讓哪種人貸款比較安全(會準時還款)
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  教育程度比較高的人比較不會欠款?
+\item
+  女生較男生不容易欠款?
+\item
+  未婚的人比較可能欠款?
+\end{enumerate}
+
+綜合四個變數來看，哪一種族群最不容易欠款?哪一種族群最有可能欠款?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# 讀取資料}
+\KeywordTok{library}\NormalTok{(tidyr)}
+\KeywordTok{library}\NormalTok{(stringr)}
+\NormalTok{path =}\StringTok{ "C:}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{Users}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{B06408042}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{Desktop}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{GitHub}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{CSX_RProject_summer_2018}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{week4}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{UCI_Credit_Card.csv"}
+\NormalTok{TB =}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(path)}
+
+\CommentTok{# 發現裡面有一些沒有意義或缺失的資料，所以將這些欄位刪除以免影響分析}
+\NormalTok{TB}\OperatorTok{$}\NormalTok{EDUCATION =}\StringTok{ }\KeywordTok{str_replace_all}\NormalTok{(TB}\OperatorTok{$}\NormalTok{EDUCATION, }\KeywordTok{c}\NormalTok{(}\StringTok{"0"}\NormalTok{ =}\StringTok{ }\OtherTok{NA_character_}\NormalTok{, }\StringTok{"5"}\NormalTok{ =}\StringTok{ }\OtherTok{NA_character_}\NormalTok{, }\StringTok{"6"}\NormalTok{ =}\StringTok{ }\OtherTok{NA_character_}\NormalTok{))}
+\NormalTok{TB}\OperatorTok{$}\NormalTok{MARRIAGE =}\StringTok{ }\KeywordTok{str_replace_all}\NormalTok{(TB}\OperatorTok{$}\NormalTok{MARRIAGE, }\KeywordTok{c}\NormalTok{(}\StringTok{"0"}\NormalTok{ =}\StringTok{ }\OtherTok{NA_character_}\NormalTok{))}
+\NormalTok{TB =}\StringTok{ }\KeywordTok{na.omit}\NormalTok{(TB)}
+
+\CommentTok{# 轉成factor}
+\NormalTok{TB}\OperatorTok{$}\NormalTok{SEX =}\StringTok{ }\KeywordTok{factor}\NormalTok{(TB}\OperatorTok{$}\NormalTok{SEX, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"male"}\NormalTok{, }\StringTok{"female"}\NormalTok{))}
+\NormalTok{TB}\OperatorTok{$}\NormalTok{EDUCATION =}\StringTok{ }\KeywordTok{factor}\NormalTok{(TB}\OperatorTok{$}\NormalTok{EDUCATION, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"graduate school"}\NormalTok{, }\StringTok{"university"}\NormalTok{, }\StringTok{"high school"}\NormalTok{, }\StringTok{"others"}\NormalTok{))}
+\NormalTok{TB}\OperatorTok{$}\NormalTok{MARRIAGE =}\StringTok{ }\KeywordTok{factor}\NormalTok{(TB}\OperatorTok{$}\NormalTok{MARRIAGE, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"married"}\NormalTok{, }\StringTok{"single"}\NormalTok{, }\StringTok{"others"}\NormalTok{))}
+\NormalTok{TB}\OperatorTok{$}\NormalTok{AGE =}\StringTok{ }\KeywordTok{factor}\NormalTok{(TB}\OperatorTok{$}\NormalTok{AGE)}
+
+\CommentTok{# 重新命名}
+\KeywordTok{names}\NormalTok{(TB)[}\DecValTok{3}\NormalTok{]<-}\StringTok{"sex"}
+\KeywordTok{names}\NormalTok{(TB)[}\DecValTok{4}\NormalTok{]<-}\StringTok{"education"}
+\KeywordTok{names}\NormalTok{(TB)[}\DecValTok{5}\NormalTok{]<-}\StringTok{"marriage"}
+\KeywordTok{names}\NormalTok{(TB)[}\DecValTok{6}\NormalTok{]<-}\StringTok{"age"}
+\KeywordTok{names}\NormalTok{(TB)[}\DecValTok{25}\NormalTok{]<-}\StringTok{"default"}
+
+\CommentTok{# 看一下改好的資料}
+\KeywordTok{str}\NormalTok{(TB)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    29601 obs. of  25 variables:
+##  $ ID       : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ LIMIT_BAL: num  20000 120000 90000 50000 50000 50000 500000 100000 140000 20000 ...
+##  $ sex      : Factor w/ 2 levels "male","female": 2 2 2 2 1 1 1 2 2 1 ...
+##  $ education: Factor w/ 4 levels "graduate school",..: 2 2 2 2 2 1 1 2 3 3 ...
+##  $ marriage : Factor w/ 3 levels "married","single",..: 1 2 2 1 1 2 2 2 1 2 ...
+##  $ age      : Factor w/ 56 levels "21","22","23",..: 4 6 14 17 37 17 9 3 8 15 ...
+##  $ PAY_0    : int  2 -1 0 0 -1 0 0 0 0 -2 ...
+##  $ PAY_2    : int  2 2 0 0 0 0 0 -1 0 -2 ...
+##  $ PAY_3    : int  -1 0 0 0 -1 0 0 -1 2 -2 ...
+##  $ PAY_4    : int  -1 0 0 0 0 0 0 0 0 -2 ...
+##  $ PAY_5    : int  -2 0 0 0 0 0 0 0 0 -1 ...
+##  $ PAY_6    : int  -2 2 0 0 0 0 0 -1 0 -1 ...
+##  $ BILL_AMT1: num  3913 2682 29239 46990 8617 ...
+##  $ BILL_AMT2: num  3102 1725 14027 48233 5670 ...
+##  $ BILL_AMT3: num  689 2682 13559 49291 35835 ...
+##  $ BILL_AMT4: num  0 3272 14331 28314 20940 ...
+##  $ BILL_AMT5: num  0 3455 14948 28959 19146 ...
+##  $ BILL_AMT6: num  0 3261 15549 29547 19131 ...
+##  $ PAY_AMT1 : num  0 0 1518 2000 2000 ...
+##  $ PAY_AMT2 : num  689 1000 1500 2019 36681 ...
+##  $ PAY_AMT3 : num  0 1000 1000 1200 10000 657 38000 0 432 0 ...
+##  $ PAY_AMT4 : num  0 1000 1000 1100 9000 ...
+##  $ PAY_AMT5 : num  0 0 1000 1069 689 ...
+##  $ PAY_AMT6 : num  0 2000 5000 1000 679 ...
+##  $ default  : int  1 1 0 0 0 0 0 0 0 0 ...
+##  - attr(*, "na.action")= 'omit' Named int  48 70 219 386 503 505 810 821 1020 1074 ...
+##   ..- attr(*, "names")= chr  "48" "70" "219" "386" ...
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}{畫圖觀察}
+
+\includegraphics{CreditCard_files/figure-beamer/unnamed-chunk-2-1.pdf}
+\includegraphics{CreditCard_files/figure-beamer/unnamed-chunk-2-2.pdf}
+\includegraphics{CreditCard_files/figure-beamer/unnamed-chunk-2-3.pdf}
+\includegraphics{CreditCard_files/figure-beamer/unnamed-chunk-2-4.pdf}
+\includegraphics{CreditCard_files/figure-beamer/unnamed-chunk-2-5.pdf}
+\includegraphics{CreditCard_files/figure-beamer/unnamed-chunk-2-6.pdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{資料分析}
+
+\begin{block}{T-Test}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{da<-TB}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(age,sex)}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{defaultAvg =} \KeywordTok{mean}\NormalTok{(default))}
+\KeywordTok{t.test}\NormalTok{(defaultAvg }\OperatorTok{~}\StringTok{ }\NormalTok{sex, da)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  defaultAvg by sex
+## t = 1.5619, df = 94.027, p-value = 0.1217
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.009386926  0.078613208
+## sample estimates:
+##   mean in group male mean in group female 
+##            0.2586613            0.2240482
+\end{verbatim}
+
+\end{block}
+
+\begin{block}{ANOVA}
+
+\begin{block}{教育程度和拖欠}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{de<-TB}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(age,education)}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{defaultAvg =} \KeywordTok{mean}\NormalTok{(default))}
+\NormalTok{resulte =}\StringTok{ }\KeywordTok{aov}\NormalTok{(defaultAvg}\OperatorTok{~}\NormalTok{education, de)}
+\KeywordTok{summary}\NormalTok{(resulte)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Df Sum Sq Mean Sq F value   Pr(>F)    
+## education     3  1.058  0.3528   22.29 2.15e-12 ***
+## Residuals   188  2.975  0.0158                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+組間有顯著差異，檢查是哪幾組間差異最顯著
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{TukeyHSD}\NormalTok{(resulte)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = defaultAvg ~ education, data = de)
+## 
+## $education
+##                                     diff         lwr         upr     p adj
+## university-graduate school   0.030344365 -0.03330770  0.09399643 0.6049510
+## high school-graduate school  0.023137321 -0.03991695  0.08619159 0.7771852
+## others-graduate school      -0.176529426 -0.24884165 -0.10421720 0.0000000
+## high school-university      -0.007207044 -0.07056655  0.05615247 0.9910562
+## others-university           -0.206873791 -0.27945233 -0.13429525 0.0000000
+## others-high school          -0.199666747 -0.27172159 -0.12761190 0.0000000
+\end{verbatim}
+
+\end{block}
+
+\begin{block}{婚姻狀態和拖欠}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dm<-TB}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(age,marriage)}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{defaultAvg =} \KeywordTok{mean}\NormalTok{(default))}
+\NormalTok{resultm =}\StringTok{ }\KeywordTok{aov}\NormalTok{(defaultAvg}\OperatorTok{~}\NormalTok{marriage, dm)}
+\KeywordTok{summary}\NormalTok{(resultm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Df Sum Sq Mean Sq F value Pr(>F)
+## marriage      2 0.0514 0.02568   1.272  0.283
+## Residuals   144 2.9076 0.02019
+\end{verbatim}
+
+組間沒有顯著差異
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{TukeyHSD}\NormalTok{(resultm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = defaultAvg ~ marriage, data = dm)
+## 
+## $marriage
+##                       diff         lwr        upr     p adj
+## single-married -0.03366061 -0.09948820 0.03216698 0.4486346
+## others-married  0.01121378 -0.05747721 0.07990476 0.9209670
+## others-single   0.04487439 -0.02588815 0.11563692 0.2931069
+\end{verbatim}
+
+\end{block}
+
+\begin{block}{性別和拖欠}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ds<-TB}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(age,sex)}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{defaultAvg =} \KeywordTok{mean}\NormalTok{(default))}
+\NormalTok{results =}\StringTok{ }\KeywordTok{aov}\NormalTok{(defaultAvg}\OperatorTok{~}\NormalTok{sex, ds)}
+\KeywordTok{summary}\NormalTok{(results)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Df Sum Sq Mean Sq F value Pr(>F)
+## sex           1 0.0329 0.03295    2.44  0.121
+## Residuals   108 1.4585 0.01350
+\end{verbatim}
+
+組間沒有顯著差異
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{TukeyHSD}\NormalTok{(results)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = defaultAvg ~ sex, data = ds)
+## 
+## $sex
+##                    diff         lwr         upr     p adj
+## female-male -0.03461314 -0.07853913 0.009312852 0.1212305
+\end{verbatim}
+
+\end{block}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Model}
+
+以年齡分群看教育對拖延還款率之間的關聯
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(Hmisc)}
+
+\KeywordTok{anova}\NormalTok{(m1 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(defaultAvg }\OperatorTok{~}\StringTok{ }\NormalTok{education, de))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: defaultAvg
+##            Df Sum Sq Mean Sq F value    Pr(>F)    
+## education   3 1.0583 0.35278   22.29 2.154e-12 ***
+## Residuals 188 2.9754 0.01583                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(de, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{group =}\NormalTok{ education , }
+           \DataTypeTok{y =}\NormalTok{defaultAvg , }\DataTypeTok{x =}\NormalTok{ age )) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stat_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{'lm'}\NormalTok{, }\DataTypeTok{se =}\NormalTok{ F) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stat_smooth}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{group =}\NormalTok{ education , }
+                  \DataTypeTok{y =}\NormalTok{defaultAvg , }\DataTypeTok{x =}\NormalTok{ age), }
+              \DataTypeTok{method =} \StringTok{'lm'}\NormalTok{, }\DataTypeTok{se =}\NormalTok{ F) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_grid}\NormalTok{( . }\OperatorTok{~}\StringTok{  }\NormalTok{education) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =}\StringTok{"age"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"education"}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{CreditCard_files/figure-beamer/unnamed-chunk-10-1.pdf}
+
+以年齡分群看婚姻狀態對拖延還款率之間的關聯
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{anova}\NormalTok{(m2 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(defaultAvg }\OperatorTok{~}\StringTok{ }\NormalTok{marriage, dm))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: defaultAvg
+##            Df  Sum Sq  Mean Sq F value Pr(>F)
+## marriage    2 0.05135 0.025677  1.2717 0.2835
+## Residuals 144 2.90762 0.020192
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(dm, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{group =}\NormalTok{ marriage , }
+               \DataTypeTok{y =}\NormalTok{defaultAvg , }\DataTypeTok{x =}\NormalTok{ age )) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stat_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{'lm'}\NormalTok{, }\DataTypeTok{se =}\NormalTok{ F) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stat_smooth}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{group =}\NormalTok{ marriage , }
+                  \DataTypeTok{y =}\NormalTok{defaultAvg , }\DataTypeTok{x =}\NormalTok{ age), }
+              \DataTypeTok{method =} \StringTok{'lm'}\NormalTok{, }\DataTypeTok{se =}\NormalTok{ F) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_grid}\NormalTok{( . }\OperatorTok{~}\StringTok{  }\NormalTok{marriage) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =}\StringTok{"age"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"marriage"}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{CreditCard_files/figure-beamer/unnamed-chunk-11-1.pdf}
+
+以年齡分群看性別對拖延還款率之間的關聯
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{anova}\NormalTok{(m3 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(defaultAvg }\OperatorTok{~}\StringTok{ }\NormalTok{sex, ds))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: defaultAvg
+##            Df  Sum Sq  Mean Sq F value Pr(>F)
+## sex         1 0.03295 0.032947  2.4396 0.1212
+## Residuals 108 1.45853 0.013505
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(ds, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{group =}\NormalTok{ sex , }
+               \DataTypeTok{y =}\NormalTok{defaultAvg , }\DataTypeTok{x =}\NormalTok{ age )) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stat_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{'lm'}\NormalTok{, }\DataTypeTok{se =}\NormalTok{ F) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stat_smooth}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{group =}\NormalTok{ sex , }
+                  \DataTypeTok{y =}\NormalTok{defaultAvg , }\DataTypeTok{x =}\NormalTok{ age), }
+              \DataTypeTok{method =} \StringTok{'lm'}\NormalTok{, }\DataTypeTok{se =}\NormalTok{ F) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_grid}\NormalTok{( . }\OperatorTok{~}\StringTok{  }\NormalTok{sex) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =}\StringTok{"age"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"sex"}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{CreditCard_files/figure-beamer/unnamed-chunk-12-1.pdf}
+
+\end{frame}
+
+\end{document}

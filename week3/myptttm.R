@@ -1,10 +1,14 @@
 library(rvest)
+library(xml2)
+id = c(4018:4020)
+url <- paste0("https://www.ptt.cc/bbs/HatePolitics/index", id,".html")
+filename <- paste0(id, ".txt")
 
 myptttm <- function(url ,filename){
-  
+ 
 # 定義爬一篇內容的函數article_detail
 article_detail<- function(url){
-  
+ url <- "https://www.ptt.cc/bbs/HatePolitics/index4020.html"
   raw_html <- read_html(url)
   main_content_xpath <- "/html/body/div[@id='main-container']/div[@id='main-content']"
   article_content <- raw_html %>%
@@ -24,11 +28,6 @@ alltext <- sapply(article_links, article_detail)
 alltext
 
 #存成txt.
-write.table(alltext, filename)
+write.table(alltext, file="0.txt")
 }
-id = c(4018:4020)
-url <- paste0("https://www.ptt.cc/bbs/HatePolitics/index", id,".html")
-filename <- paste0(id, ".txt")
-myptttm(url[c(4018:4020)], filename[c(4018:4020)])
-mapply(myptttm, 
-       url = url, filename = filename)
+myptttm(url, filename)
