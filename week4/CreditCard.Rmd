@@ -9,6 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+[資料庫來源](https://www.kaggle.com/uciml/default-of-credit-card-clients-dataset)
+
 ## 問題 
 
 
