@@ -14,7 +14,7 @@ TB$SEX = factor(TB$SEX, labels = c("male", "female"))
 TB$EDUCATION = factor(TB$EDUCATION, labels = c("others","graduate school", "university", "high school"))
 TB$MARRIAGE = factor(TB$MARRIAGE, labels = c("others","married", "single","divorce"))
 TB$AGE = factor(TB$AGE)
-
+TB$default.payment.next.month = as.numeric(TB$default.payment.next.month = factor(TB$default.payment.next.month))
 
 TB$PAY_0 = factor(TB$PAY_0, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 1 month", "delay 2 month","delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
 TB$PAY_2 = factor(TB$PAY_2, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 1 month", "delay 2 month","delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
@@ -38,7 +38,12 @@ names(TB)[4]<-"education"
 names(TB)[5]<-"marriage"
 names(TB)[6]<-"age"
 names(TB)[25]<-"default"
-
+names(TB)[7]<-"Sep"
+names(TB)[8]<-"Aug"
+names(TB)[9]<-"Jul"
+names(TB)[10]<-"Jun"
+names(TB)[11]<-"May"
+names(TB)[12]<-"Apr"
 
 
 
@@ -199,4 +204,17 @@ ggplot(data = fit_m2, aes(x = LIMIT_BAL, group = EDUCATION )) +
   scale_x_continuous(breaks = seq(200, 900, by = 100))+
   labs(x = '數學分數', y = '機率密度')
 
+De = TB%>%
+  group_by(education,Sep,given_credit,age)%>%
+  summarise(defaultAvg = mean(default))
+  
+ggplot(De,aes(x =, color = education, size = ))+
+  geom_histogram()+
+  facet_wrap(~ education)
 
+         
+
+
+head(De)
+tail(De)
+  

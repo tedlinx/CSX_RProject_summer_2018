@@ -13,39 +13,31 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 問題 
 
+這份作業旨在探討影響信用卡違約的因素，並模仿課堂範例的方式進行EDA以及資料分析
 
-* 拖欠付款的機率和什麼變項有關?
-* 可不可以透過變數來預測一個人會不會拖欠付款?
+要探討的因素有:
 
-這些問題關係到銀行要讓哪種人貸款比較安全(會準時還款)
-
-1. 教育程度比較高的人比較不會欠款?
-2. 女生較男生不容易欠款?
-3. 未婚的人比較可能欠款?
-
-綜合四個變數來看，哪一種族群最不容易欠款?哪一種族群最有可能欠款?
+1. 性別
+2. 教育
+3. 婚姻狀況
+4. 年齡
 
 ## 原始資料變數解釋
 
+LIMIT_BAL:信用額度
 
-**我用來分析的變數** 
+SEX 性別(1 = male; 2 = female).
 
- LIMIT_BAL:信用額度
+Education教育程度 (1 = graduate school; 2 = university; 3 = high school; 0, 4, 5, 6 = others).
 
- SEX 性別(1 = male; 2 = female).
+Marital status婚姻狀態 (1 = married; 2 = single; 3 = divorce; 0=others).
 
- Education教育程度 (1 = graduate school; 2 = university; 3 = high school; 0, 4, 5, 6 = others).
+Age 年齡(year)
 
- Marital status婚姻狀態 (1 = married; 2 = single; 3 = divorce; 0=others).
-
- Age 年齡(year)
-
-default payment next month: 是否拖延繳款(1 = 是, 0 = 否) 
+default payment next month: 是否違約(1 = 是, 0 = 否) 
 
 
-**以下變數因為和我有興趣的問題較不相關所以暫時不使用**
-
-Pay_0~6:過去一個月的繳款紀錄(依序為2005-09 ~ 2005-04).
+Pay_0~6:過去一個月的繳款狀況(依序為2005-09 ~ 2005-04).
 
 * -2 沒有用信用卡消費No consumption
 * -1 全部繳清Paid in full
@@ -55,15 +47,39 @@ Pay_0~6:過去一個月的繳款紀錄(依序為2005-09 ~ 2005-04).
 * 以此類推
 * 9 拖延繳款9個月以上(含九個月)payment delay for nine months and above
 
-BILL_AMT1~6 信用卡帳單(依序為2005-09 ~ 2005-04)
+BILL_AMT1~6 信用卡帳單(應付帳款)(依序為2005-09 ~ 2005-04)
 
-PAY_AMT1~6 前期付費(依序為2005-09 ~ 2005-04)
+PAY_AMT1~6 前一期繳款紀錄(依序為2005-09 ~ 2005-04)
+
+### 資料解釋
+
+分析這份資料最困難的地方在於解釋每一筆資料代表的意義(我直到作這份作業才開始接觸信用卡相關的知識XD)。以下就這份資料解釋過程中發現的問題進行自問自答。
+
+Q1. 為什麼有時顯示該期沒有消費卻還是有帳款要繳?
+A1: 每一期的信用卡應付帳款，在沒有特別約定時，包含當期與前期累計未繳款項、預借現金金額、循環信用利息、年費、各種手續費等。所以有可能沒有用信用卡消費還是有帳款要繳。
+
+Q2. 怎麼看有無違約?
+A2: 持卡人未於約定繳費日期繳清最低應繳金額就是違約。從這份資料來看，一個月算一期，如果在前一期有繳納應繳金額(至少要繳納最低應繳金額)，則在下一期會顯示前一期繳款記錄，在四月到九月之間只要都沒有拖延繳款，違約記錄就會顯示0，如果有拖延繳款，則會顯示1。
+
+Q3. 為什麼有些人帳單上的應繳金額額度很高，卻只繳一點點錢?
+A3: 這種人多半是使用循環信用來"延後"每一期的應繳金額。循環信用的立意，在於讓持卡人得以延後繳清帳單，只要先繳納一部份(通常是最低應繳金額不少於1000元時，先繳其中約5%)，其他未繳的則計入循環信用貸款加計利息。循環利率多半在萬分之4.5~5.5之間，年利率則在16~20%之間。
+
+Q4. 為什麼有人的信用額度比帳單應繳納金額還低?
+A4: 信用額度是指銀行給持卡人的刷卡金額上限(銀行會在發卡前調查申請人的信用狀況，如經濟來源、和銀行的往來紀錄，來決定信用額度)，應繳納金額如前所述，有可能不只包含該期消費，如果銀行沒有規範，就有可能應繳金額大於信用額度。
+
+Q5. 為什麼有些應繳金額呈現負數?
+A5: 有些人會預繳信用卡帳單(多繳錢到信用卡帳戶)，多出來的錢久以負數表示。
+
+**參考資料**
+林峰正、周慧貞。信用卡VS.法律權益。永然文化出版股份有限公司。
+
+王建民。信用卡業務之研究。台北銀行經濟研究室編印
 
 ```{r,warning=FALSE}
 # 讀取資料
 library(tidyr)
 library(stringr)
-path =  "C:\\Users\\B06408042\\Desktop\\GitHub\\CSX_RProject_summer_2018\\week4\\UCI_Credit_Card.csv"
+path =  "C:\\Users\\B06408042\\Desktop\\GitHub\\CSX_RProject_summer_2018\\week4\\doc.csv"
 TB = read.csv(path)
 
 
@@ -72,33 +88,41 @@ TB$EDUCATION = str_replace_all(TB$EDUCATION, c("5" = "0", "6" = "0", "4" = "0"))
 
 
 # 轉成factor
-TB$ID = factor(TB$ID)
-TB$SEX = factor(TB$SEX, labels = c("male", "female"))
-TB$EDUCATION = factor(TB$EDUCATION, labels = c("others","graduate school", "university", "high school"))
-TB$MARRIAGE = factor(TB$MARRIAGE, labels = c("others","married", "single","divorce"))
+TB$SEX = factor(TB$SEX, labels = c("男", "女"))
+TB$EDUCATION = factor(TB$EDUCATION, labels = c("其他","研究所以上", "大學", "高中職"))
+TB$MARRIAGE = factor(TB$MARRIAGE, labels = c("其他","已婚", "單身","離婚"))
 TB$AGE = factor(TB$AGE)
-TB$PAY_0 = factor(TB$PAY_0, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 1 month", "delay 2 month","delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
-TB$PAY_2 = factor(TB$PAY_2, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 1 month", "delay 2 month","delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
-TB$PAY_3 = factor(TB$PAY_3, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 1 month", "delay 2 month","delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
-TB$PAY_4 = factor(TB$PAY_4, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 1 month", "delay 2 month","delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
-TB$PAY_5 = factor(TB$PAY_5, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 2 month", "delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
-TB$PAY_6 = factor(TB$PAY_6, labels = c("No consumption", "Paid in full", "use revolving credit", "delay 2 month", "delay 3 month","delay 4 month","delay 5 month","delay 6 month","delay 7 month","delay 8 month"))
+TB$default.payment.next.month = factor(TB$default.payment.next.month)
+TB$PAY_0 = factor(TB$PAY_0, labels = c("沒有消費", "付清", "使用循環信貸", "逾期1個月", "逾期2個月","逾期3個月","逾期4個月","逾期5個月","逾期6個月","逾期7個月","逾期8個月"))
+TB$PAY_2 = factor(TB$PAY_2, labels =  c("沒有消費", "付清", "使用循環信貸", "逾期1個月", "逾期2個月","逾期3個月","逾期4個月","逾期5個月","逾期6個月","逾期7個月","逾期8個月"))
+TB$PAY_3 = factor(TB$PAY_3, labels =  c("沒有消費", "付清", "使用循環信貸", "逾期1個月", "逾期2個月","逾期3個月","逾期4個月","逾期5個月","逾期6個月","逾期7個月","逾期8個月"))
+TB$PAY_4 = factor(TB$PAY_4, labels =  c("沒有消費", "付清", "使用循環信貸", "逾期1個月", "逾期2個月","逾期3個月","逾期4個月","逾期5個月","逾期6個月","逾期7個月","逾期8個月"))
+TB$PAY_5 = factor(TB$PAY_5, labels =  c("沒有消費", "付清", "使用循環信貸", "逾期2個月","逾期3個月","逾期4個月","逾期5個月","逾期6個月","逾期7個月","逾期8個月"))
+TB$PAY_6 = factor(TB$PAY_6, labels =  c("沒有消費", "付清", "使用循環信貸", "逾期2個月","逾期3個月","逾期4個月","逾期5個月","逾期6個月","逾期7個月","逾期8個月"))
 
-
-
-# 重新命名
 names(TB)[2]<-"given_credit"
 names(TB)[3]<-"sex"
 names(TB)[4]<-"education"
 names(TB)[5]<-"marriage"
 names(TB)[6]<-"age"
 names(TB)[25]<-"default"
+names(TB)[7]<-"Sep"
+names(TB)[8]<-"Aug"
+names(TB)[9]<-"Jul"
+names(TB)[10]<-"Jun"
+names(TB)[11]<-"May"
+names(TB)[12]<-"Apr"
 
 # 看一下改好的資料
 str(TB)
 ```
 
 ## 畫圖觀察
+
+library(ggplot2)
+library(dplyr)
+
+
 
 以年齡分組算各組拖欠繳款率再分別和其他變數作圖
 ```{r, echo=FALSE,message=FALSE,warning=FALSE}

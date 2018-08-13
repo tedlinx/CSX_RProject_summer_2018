@@ -19,6 +19,8 @@ Details|Works
 ---|[ptt留學版tf-idf]( https://tedlinx.github.io/CSX_RProject_summer_2018/week3/PTT留學版TFIDF.html)
 ---|[tf-idf+PCA+KMeans]( https://tedlinx.github.io/CSX_RProject_summer_2018/week3/TFIDF+PCA+KMeans.html) 
 [Week4]()| [Credit Card](https://tedlinx.github.io/CSX_RProject_summer_2018/week4/CreditCard.html)
+[Week5]()|---
+[Week6]()|[Final Group Project](https://github.com/Jerry882612/Jerry882612/blob/master/Week5/app.R)
 *****
 
 * Name: 林冠辰 Kuan-Chen Lin
